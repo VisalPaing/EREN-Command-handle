@@ -9,25 +9,6 @@ module.exports.run = async (client, message) => {
   if (!message.guild) return;
 
   addexp(message);
-
-  if (!message.member.hasPermission("ADMINISTRATOR")) {
-
-
-
-    message.content.split(" ").forEach(m => {
-      if (is_url(m)) {
-        message.delete().catch(err => {})
-        return message.channel.send("You are not allowed to send links :/")
-      } else if (badwords.find(x => x.toLowerCase() === m.toLowerCase())) {
-
-        message.delete().catch(err => {})
-        return message.channel.send("You are not allowed to use (**" + m + "**) word here")
-
-      }
-    })
-
-  }
-
   let prefix = db.get(`prefix_${message.guild.id}`);
   if (prefix === null) prefix = default_prefix;
 
@@ -115,16 +96,4 @@ module.exports.run = async (client, message) => {
 
 
 
-}
-
-
-//-------------------------------------------- F U N C T I O N ------------------------------------------
-function is_url(str) {
-  let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-  if(regexp.test(str)) {
-    return true;
-  } else {
-    return false;
-  }
-  
 }
